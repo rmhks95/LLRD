@@ -1,0 +1,28 @@
+﻿div.qsf-ib {
+    width: 352px;
+    margin-right: 15px;
+    vertical-align: top;
+    display: inline-block;
+}
+ 
+#ContentTemplateZone, #NavigateUrlZone {
+    height: 400px;
+}
+ 
+.contText, .contButton {
+    margin: 0;
+    padding: 0 0 10px 5px;
+}
+ 
+.RadWindow_Black .contText {
+    color: #fff;
+}
+ 
+.qsf-ib h4.infoHeader {
+    text-transform: none;
+}
+ 
+html.RadForm_Black, 
+html.RadForm_BlackMetroTouch {
+    background-color: #fff;
+}
