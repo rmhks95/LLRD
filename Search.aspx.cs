@@ -168,9 +168,10 @@ public partial class Home : System.Web.UI.Page
         found = find(display);
         if (found[0, 0] != null && PartNum.Text != "")
         {
-            Needs_Box.Visible = false;
+            
             GridView1.Visible = true;
             Session["array"] = found;
+
             DataTable dt2 = new DataTable("test");
 
             // DataColumn you can use constructor DataColumn(name,type);
@@ -286,8 +287,13 @@ public partial class Home : System.Web.UI.Page
             }
 
             GridView1.DataSource = dt2;
+
             Session["dt2"] = dt2;
-            GridView1.DataBind();
+
+            if ((!IsPostBack))
+                GridView1.DataBind();
+
+            Needs_Box.Visible = false;
         }
         else
         {
@@ -465,33 +471,33 @@ public partial class Home : System.Web.UI.Page
 
         //Update the values.
         GridViewRow row = GridView1.Rows[e.RowIndex];
-
+        int selected = e.RowIndex;
 
         display = (string[,])Session["array"];
-        display[e.RowIndex, 2] = ((TextBox)(row.Cells[5].Controls[0])).Text;
-        display[e.RowIndex, 3] = ((TextBox)(row.Cells[7].Controls[0])).Text;
-        display[e.RowIndex, 4] = ((TextBox)(row.Cells[8].Controls[0])).Text;
-        display[e.RowIndex, 5] = ((TextBox)(row.Cells[10].Controls[0])).Text;
-        display[e.RowIndex, 6] = ((TextBox)(row.Cells[11].Controls[0])).Text;
-        display[e.RowIndex, 7] = ((TextBox)(row.Cells[12].Controls[0])).Text;
-        display[e.RowIndex, 8] = ((TextBox)(row.Cells[13].Controls[0])).Text;
-        display[e.RowIndex, 9] = ((TextBox)(row.Cells[14].Controls[0])).Text;
-        display[e.RowIndex, 10] = ((TextBox)(row.Cells[15].Controls[0])).Text;
-        display[e.RowIndex, 11] = ((TextBox)(row.Cells[16].Controls[0])).Text;
-        display[e.RowIndex, 12] = ((TextBox)(row.Cells[17].Controls[0])).Text;
-        display[e.RowIndex, 13] = ((TextBox)(row.Cells[18].Controls[0])).Text;
-        display[e.RowIndex, 14] = ((TextBox)(row.Cells[19].Controls[0])).Text;
-        display[e.RowIndex, 15] = ((TextBox)(row.Cells[20].Controls[0])).Text;
-        display[e.RowIndex, 16] = ((TextBox)(row.Cells[21].Controls[0])).Text;
-        display[e.RowIndex, 17] = ((TextBox)(row.Cells[22].Controls[0])).Text;
-        display[e.RowIndex, 18] = ((TextBox)(row.Cells[23].Controls[0])).Text;
-        display[e.RowIndex, 19] = ((TextBox)(row.Cells[24].Controls[0])).Text;
-        display[e.RowIndex, 20] = ((TextBox)(row.Cells[25].Controls[0])).Text;
-        display[e.RowIndex, 21] = ((TextBox)(row.Cells[26].Controls[0])).Text;
-        display[e.RowIndex, 22] = ((TextBox)(row.Cells[27].Controls[0])).Text;
-        display[e.RowIndex, 23] = ((TextBox)(row.Cells[28].Controls[0])).Text;
-        display[e.RowIndex, 24] = ((TextBox)(row.Cells[29].Controls[0])).Text;
-        display[e.RowIndex, 25] = ((TextBox)(row.Cells[30].Controls[0])).Text;
+        display[selected, 2] = ((TextBox)(row.Cells[5].Controls[0])).Text;
+        display[selected, 3] = ((TextBox)(row.Cells[7].Controls[0])).Text;
+        display[selected, 4] = ((TextBox)(row.Cells[8].Controls[0])).Text;
+        display[selected, 5] = ((TextBox)(row.Cells[10].Controls[0])).Text;
+        display[selected, 6] = ((TextBox)(row.Cells[11].Controls[0])).Text;
+        display[selected, 7] = ((TextBox)(row.Cells[12].Controls[0])).Text;
+        display[selected, 8] = ((TextBox)(row.Cells[13].Controls[0])).Text;
+        display[selected, 9] = ((TextBox)(row.Cells[14].Controls[0])).Text;
+        display[selected, 10] = ((TextBox)(row.Cells[15].Controls[0])).Text;
+        display[selected, 11] = ((TextBox)(row.Cells[16].Controls[0])).Text;
+        display[selected, 12] = ((TextBox)(row.Cells[17].Controls[0])).Text;
+        display[selected, 13] = ((TextBox)(row.Cells[18].Controls[0])).Text;
+        display[selected, 14] = ((TextBox)(row.Cells[19].Controls[0])).Text;
+        display[selected, 15] = ((TextBox)(row.Cells[20].Controls[0])).Text;
+        display[selected, 16] = ((TextBox)(row.Cells[21].Controls[0])).Text;
+        display[selected, 17] = ((TextBox)(row.Cells[22].Controls[0])).Text;
+        display[selected, 18] = ((TextBox)(row.Cells[23].Controls[0])).Text;
+        display[selected, 19] = ((TextBox)(row.Cells[24].Controls[0])).Text;
+        display[selected, 20] = ((TextBox)(row.Cells[25].Controls[0])).Text;
+        display[selected, 21] = ((TextBox)(row.Cells[26].Controls[0])).Text;
+        display[selected, 22] = ((TextBox)(row.Cells[27].Controls[0])).Text;
+        display[selected, 23] = ((TextBox)(row.Cells[28].Controls[0])).Text;
+        display[selected, 24] = ((TextBox)(row.Cells[29].Controls[0])).Text;
+        display[selected, 25] = ((TextBox)(row.Cells[30].Controls[0])).Text;
         //dt.Rows[row.DataItemIndex]["Nest File Location"] = ((TextBox)(row.Cells[29].Controls[0])).Text;
         //dt.Rows[row.DataItemIndex]["IsComplete"] = ((CheckBox)(row.Cells[3].Controls[0])).Checked;
 
@@ -499,7 +505,7 @@ public partial class Home : System.Web.UI.Page
         GridView1.EditIndex = -1;
 
         //Bind data to the GridView control.
-        FixLists(display);
+        FixLists(display, selected);
         Page_Load(null, null);
         BindData();
     }
@@ -517,133 +523,220 @@ public partial class Home : System.Web.UI.Page
     /// Fixs part in file
     /// </summary>
     /// <param name="use"></param>
-    protected void FixLists(string[,] use)
+    protected void FixLists(string[,] use, int selected)
     {
-        string[,] NN = new string[total, 31];
-        string[,] NF = new string[total, 31];
-        string[,] IP = new string[total, 31];
-        string[,] FI = new string[total, 31];
 
-        int e = 0;
-        int o = 0;
-        int r = 0;
-        int n = 0;
-        for (int i = 0; i < total; i++)
+        string location = use[selected, 28];
+        string[] split = new string[(total * 31)];
+        if (location.Equals("Needs Nested"))
         {
-            if (use[i, 28] == "Needs Nested")
+            using (StreamReader SR = new StreamReader(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "needsNested.txt")))
             {
-                for (int k = 0; k < 31; k++)
+                string line;
+                for (int i = 0; i < total; i++)
                 {
-                    NN[e, k] = use[i, k];
-                }
-                e++;
-            }
-            else if (use[i, 28] == "Needs Formed")
-            {
-                for (int k = 0; k < 31; k++)
-                {
-                    NF[o, k] = use[i, k];
-                }
-                o++;
-            }
-            else if (use[i, 28] == "In Progress")
-            {
-                for (int k = 0; k < 31; k++)
-                {
-                    IP[r, k] = use[i, k];
-                }
-                r++;
-            }
-            else if (use[i, 28] == "Finished")
-            {
-                for (int k = 0; k < 31; k++)
-                {
-                    FI[n, k] = use[i, k];
-                }
-                n++;
-            }
-        }
 
-        var file1 = File.Create(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "NeedsNested.txt"));
-        file1.Close();
-        using (var sw = new StreamWriter(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "NeedsNested.txt"), true))
-        {
-            for (int i = 0; i < total; i++)
-            {
-                string output = "";
-                if (NN[i, 0] != null && NN[i, 0] != "")
-                {
-                    for (int j = 0; j < 31; j++)
+
+                    line = SR.ReadLine();
+                    if (line != null)
                     {
-                        output += NN[i, j] + "|";
+                        split = line.Split('|');
+                        if (split[0] != use[selected, 0])
+                        {
+                            for (int j = 0; j < split.Length - 1; j++)
+                            {
+                                needs[i, j] = split[j];
+                            }
+                        }
+                        else
+                        {
+                            for (int j = 0; j < 30 - 1; j++)
+                            {
+                                needs[i, j] = use[selected, j];
+                            }
+                        }
                     }
-                    sw.WriteLine(output);
                 }
-
             }
-            sw.Close();
-        }
-
-        var file2 = File.Create(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "NeedsFormed.txt"));
-        file2.Close();
-        using (var sw = new StreamWriter(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "NeedsFormed.txt"), true))
-        {
-            for (int i = 0; i < total; i++)
+            var fole1 = File.Create(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "NeedsNested.txt"));
+            fole1.Close();
+            using (var sw = new StreamWriter(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "NeedsNested.txt"), true))
             {
-                string output = "";
-                if (NF[i, 0] != null && NF[i, 0] != "")
+                for (int i = 0; i < total; i++)
                 {
-                    for (int j = 0; j < 31; j++)
+                    string output = "";
+                    if (needs[i, 0] != null && needs[i, 0] != "")
                     {
-                        output += NF[i, j] + "|";
+                        for (int j = 0; j < 31; j++)
+                        {
+                            output += needs[i, j] + "|";
+                        }
+                        sw.WriteLine(output);
                     }
-                    sw.WriteLine(output);
+
                 }
-
+                sw.Close();
             }
-            sw.Close();
-        }
 
-        var file3 = File.Create(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "InProgress.txt"));
-        file3.Close();
-        using (var sw = new StreamWriter(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "InProgress.txt"), true))
+        }
+        else if(location.Equals("Needs Formed"))
         {
-            for (int i = 0; i < total; i++)
+            using (StreamReader SR = new StreamReader(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "needsFormed.txt")))
             {
-                string output = "";
-                if (IP[i, 0] != null && IP[i, 0] != "")
+                string line;
+                for (int i = 0; i < total; i++)
                 {
-                    for (int j = 0; j < 31; j++)
+
+
+                    line = SR.ReadLine();
+                    if (line != null)
                     {
-                        output += IP[i, j] + "|";
+                        split = line.Split('|');
+                        if (split[0] != use[selected, 0])
+                        {
+                            for (int j = 0; j < split.Length - 1; j++)
+                            {
+                                needs[i, j] = split[j];
+                            }
+                        }
+                        else
+                        {
+                            for (int j = 0; j < 30 - 1; j++)
+                            {
+                                needs[i, j] = use[selected, j];
+                            }
+                        }
                     }
-                    sw.WriteLine(output);
                 }
-
             }
-            sw.Close();
-        }
+            var fole1 = File.Create(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "NeedsFormed.txt"));
+            fole1.Close();
+            using (var sw = new StreamWriter(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "NeedsFormed.txt"), true))
+            {
+                for (int i = 0; i < total; i++)
+                {
+                    string output = "";
+                    if (needs[i, 0] != null && needs[i, 0] != "")
+                    {
+                        for (int j = 0; j < 31; j++)
+                        {
+                            output += needs[i, j] + "|";
+                        }
+                        sw.WriteLine(output);
+                    }
 
-        var file4 = File.Create(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Finished.txt"));
-        file4.Close();
-        using (var sw = new StreamWriter(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Finished.txt"), true))
+                }
+                sw.Close();
+            }
+        }
+        else if(location.Equals("In Progress"))
         {
-            for (int i = 0; i < total; i++)
+            using (StreamReader SR = new StreamReader(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "InProgress.txt")))
             {
-                string output = "";
-                if (FI[i, 0] != null && FI[i, 0] != "")
+                string line;
+                for (int i = 0; i < total; i++)
                 {
-                    for (int j = 0; j < 31; j++)
-                    {
-                        output += FI[i, j] + "|";
-                    }
-                    sw.WriteLine(output);
-                }
 
+
+                    line = SR.ReadLine();
+                    if (line != null)
+                    {
+                        split = line.Split('|');
+                        if (split[0] != use[selected, 0])
+                        {
+                            for (int j = 0; j < split.Length - 1; j++)
+                            {
+                                needs[i, j] = split[j];
+                            }
+                        }
+                        else
+                        {
+                            for (int j = 0; j < 30 - 1; j++)
+                            {
+                                needs[i, j] = use[selected, j];
+                            }
+                        }
+                    }
+                }
             }
-            sw.Close();
+            var fole1 = File.Create(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "InProgress.txt"));
+            fole1.Close();
+            using (var sw = new StreamWriter(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "InProgress.txt"), true))
+            {
+                for (int i = 0; i < total; i++)
+                {
+                    string output = "";
+                    if (needs[i, 0] != null && needs[i, 0] != "")
+                    {
+                        for (int j = 0; j < 31; j++)
+                        {
+                            output += needs[i, j] + "|";
+                        }
+                        sw.WriteLine(output);
+                    }
+
+                }
+                sw.Close();
+            }
         }
+        else
+        {
+            using (StreamReader SR = new StreamReader(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Finished.txt")))
+            {
+                string line;
+                for (int i = 0; i < total; i++)
+                {
+
+
+                    line = SR.ReadLine();
+                    if (line != null)
+                    {
+                        split = line.Split('|');
+                        if (split[0] != use[selected, 0])
+                        {
+                            for (int j = 0; j < split.Length - 1; j++)
+                            {
+                                needs[i, j] = split[j];
+                            }
+                        }
+                        else
+                        {
+                            for (int j = 0; j < 30 - 1; j++)
+                            {
+                                needs[i, j] = use[selected, j];
+                            }
+                        }
+                    }
+                }
+            }
+            var fole1 = File.Create(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Finished.txt"));
+            fole1.Close();
+            using (var sw = new StreamWriter(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Finished.txt"), true))
+            {
+                for (int i = 0; i < total; i++)
+                {
+                    string output = "";
+                    if (needs[i, 0] != null && needs[i, 0] != "")
+                    {
+                        for (int j = 0; j < 31; j++)
+                        {
+                            output += needs[i, j] + "|";
+                        }
+                        sw.WriteLine(output);
+                    }
+
+                }
+                sw.Close();
+            }
+        }
+
     }
 
 
+
+    protected void Search_Click(object sender, EventArgs e)
+    {
+        Page_Load(null, null);
+        BindData();
+    }
 }

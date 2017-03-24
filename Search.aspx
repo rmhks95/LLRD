@@ -12,14 +12,14 @@
         </p>
      <p class="lead">
 
-         <asp:Button ID="Search" runat="server" Text="Search" OnClick="Page_Load" />
+         <asp:Button ID="Search" runat="server" Text="Search" OnClick="Search_Click" />
         </p>
      <p class="lead">
 
     <asp:GridView ID="GridView1" runat="server" class="sortable" OnRowDataBound="GridView1_DataBound" OnRowUpdating="TaskGridView_RowUpdating" OnRowCancelingEdit="TaskGridView_RowCancelingEdit" OnRowEditing="GridView1_RowEditing" BackColor="White" BorderColor="#999999" BorderStyle="None" BorderWidth="1px" CellPadding="3">
         <AlternatingRowStyle BackColor="#DCDCDC" />
         <Columns>
-            <asp:CommandField ShowEditButton="True" Visible="False">
+            <asp:CommandField ShowEditButton="True" Visible="true">
             <ItemStyle Font-Italic="True" Font-Underline="True" ForeColor="Black" />
             </asp:CommandField>
         </Columns>
