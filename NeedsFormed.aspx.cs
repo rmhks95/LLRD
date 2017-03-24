@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections;
 using System.Data;
 using System.IO;
-using System.Data.SqlClient;
 using System.Linq;
-using System.Web;
 using System.Web.UI;
 using System.Drawing;
 using System.Web.UI.WebControls;

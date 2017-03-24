@@ -1,13 +1,11 @@
 ﻿using System;
-using System.Collections;
 using System.Data;
 using System.IO;
-using System.Data.SqlClient;
-using System.Linq;
-using System.Web;
 using System.Net.Mail;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+
+
 public partial class Contact : System.Web.UI.Page
 {
     public string[,] needs = new string[50, 30];

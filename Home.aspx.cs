@@ -4,11 +4,7 @@ using System.Linq;
 using System.IO;
 using System.Data;
 using System.Drawing;
-using System.Web;
-using System.Web.UI;
 using System.Web.UI.WebControls;
-using System.Resources;
-using System.Reflection;
 
 
 public partial class Home : System.Web.UI.Page
@@ -490,8 +486,7 @@ public partial class Home : System.Web.UI.Page
                 string line;
                 for (int i = 0; i < total; i++)
                 {
-
-
+                    
                     line = SR.ReadLine();
                     if (line != null)
                     {

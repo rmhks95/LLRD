@@ -1,14 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.IO;
 using System.Data;
 using System.Drawing;
-using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using System.Resources;
-using System.Reflection;
 
 
 public partial class Home : System.Web.UI.Page
