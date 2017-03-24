@@ -7,7 +7,7 @@
          Search for Part </h1>
         <p class="lead">
             <br />
-            Part Number:
+            Search:
             <asp:TextBox ID="PartNum" runat="server" required="true"></asp:TextBox>
         </p>
      <p class="lead">

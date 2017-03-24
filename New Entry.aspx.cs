@@ -46,6 +46,7 @@ public partial class About : Page
     {
         Function_Drop_SelectedIndexChanged(null, null);
         makeList();
+        Session["part"] = current;
         Empty();
         
     }
@@ -1057,135 +1058,123 @@ public partial class About : Page
     /// <param name="e"></param>
     protected void GP_But_Click(object sender, EventArgs e)
     {
-        if(needs[0,0] != null)
-        {
-            int k = 0;
-            for(int m= 49; m>-1; m--)
-            {
-                if (needs[m, 0] != "" && needs[m,0] != null)
-                {
-                    k = m;
-                    break;
-                }
+        string[] last = (string[])Session["part"];
 
-            }
-        
-            Function_Drop.Text = needs[k,1];
-            Initials_Box.Text = needs[k, 2];
-            Desc_Box.Text = needs[k, 3];
+        if(last != null) { 
+            Function_Drop.Text = last[1];
+            Initials_Box.Text = last[ 2];
+            Desc_Box.Text = last[ 3];
             Part_Num_Box.Text = "";
             Quan_Box.Text = "";
             if(Rev_Box.Enabled ==true)
-            Rev_Box.Text = needs[k, 6];
+            Rev_Box.Text = last[ 6];
             if(Cut_Date.Enabled ==true)
-            Cut_Date.Text = needs[k, 7];
+            Cut_Date.Text = last[ 7];
             if(Form_Date.Enabled ==true)
-            Form_Date.Text = needs[k, 8];
+            Form_Date.Text = last[ 8];
             if(Type_Drop.Enabled ==true)
-            if (needs[k, 9] != "")
+            if (last[ 9] != "")
             {
-                if (needs[k, 9] != "Prototype" && needs[k, 9] != "Shop Use" && needs[k, 9] != "Personal Project" && needs[k, 9] != "Production Release by ECR" && needs[k, 9] != "Production Revision by ECR")
+                if (last[ 9] != "Prototype" && last[ 9] != "Shop Use" && last[ 9] != "Personal Project" && last[ 9] != "Production Release by ECR" && last[ 9] != "Production Revision by ECR")
                 {
-                    Type_Drop.Text = "Other"; Type_Explain.Visible = true; Type_Exp_Box.Visible = true; Type_Exp_Box.Text = needs[k, 9];
+                    Type_Drop.Text = "Other"; Type_Explain.Visible = true; Type_Exp_Box.Visible = true; Type_Exp_Box.Text = last[ 9];
                 }
                 else
                 {
-                    Type_Drop.Text = needs[k, 9]; Type_Explain.Visible = false; Type_Exp_Box.Visible = false; Type_Exp_Box.Text = "";
+                    Type_Drop.Text = last[ 9]; Type_Explain.Visible = false; Type_Exp_Box.Visible = false; Type_Exp_Box.Text = "";
                 }
             }
             if(Mat_Drop.Enabled == true)
-            if (needs[k, 10] != "")
+            if (last[ 10] != "")
             {
-                if (needs[k, 10] != "22GA, CR" && needs[k, 10] != "20GA, CR" && needs[k, 10] != "18GA, CR" && needs[k, 10] != "16GA, CR OR HR" && needs[k, 10] != "14GA, P&O" && needs[k, 10] != "12GA, P&O" && needs[k, 10] != "11GA, P&O" && needs[k, 10] != "10GA P&O" && needs[k, 10] != "7GA P&O" && needs[k, 10] != "1/4\" P&O" && needs[k, 10] != "1/4\" HR" && needs[k, 10] != "5/6\" HR" && needs[k, 10] != "3/8\" HR" && needs[k, 10] != "1/2\" P&O" && needs[k, 10] != "3/4\" HR" && needs[k, 10] != "1\" HR")
+                if (last[ 10] != "22GA, CR" && last[ 10] != "20GA, CR" && last[ 10] != "18GA, CR" && last[ 10] != "16GA, CR OR HR" && last[ 10] != "14GA, P&O" && last[ 10] != "12GA, P&O" && last[ 10] != "11GA, P&O" && last[ 10] != "10GA P&O" && last[ 10] != "7GA P&O" && last[ 10] != "1/4\" P&O" && last[ 10] != "1/4\" HR" && last[ 10] != "5/6\" HR" && last[ 10] != "3/8\" HR" && last[ 10] != "1/2\" P&O" && last[ 10] != "3/4\" HR" && last[ 10] != "1\" HR")
                 {
-                    Mat_Drop.Text = "Other"; Mat_Explain.Visible = true; Mat_Exp_Box.Visible = true; Mat_Exp_Box.Text = needs[k, 10];
+                    Mat_Drop.Text = "Other"; Mat_Explain.Visible = true; Mat_Exp_Box.Visible = true; Mat_Exp_Box.Text = last[ 10];
                 }
                 else
                 {
-                    Mat_Drop.Text = needs[k, 10];
+                    Mat_Drop.Text = last[ 10];
                 }
             }
             if(Gas_Drop.Enabled == true)
-            if (needs[k, 11] != "")
+            if (last[ 11] != "")
             {
-                if (needs[k, 11] != "Any" && needs[k, 11] != "Oxygen" && needs[k, 11] != "Nitrogen" && needs[k, 11] != "Shop Air")
+                if (last[ 11] != "Any" && last[ 11] != "Oxygen" && last[ 11] != "Nitrogen" && last[ 11] != "Shop Air")
                 {
-                    Gas_Drop.Text = "Other"; Gas_Exp.Visible = true; Gas_Exp_Box.Visible = true; Gas_Exp_Box.Text = needs[k, 11];
+                    Gas_Drop.Text = "Other"; Gas_Exp.Visible = true; Gas_Exp_Box.Visible = true; Gas_Exp_Box.Text = last[ 11];
                 }
                 else
                 {
-                    Gas_Drop.Text = needs[k, 11]; Gas_Exp.Visible = false; Gas_Exp_Box.Visible = false; Gas_Exp_Box.Text = needs[k, 11] = "";
+                    Gas_Drop.Text = last[ 11]; Gas_Exp.Visible = false; Gas_Exp_Box.Visible = false; Gas_Exp_Box.Text = last[ 11] = "";
                 }
             }
             if(Urg_drop.Enabled == true)
-            Urg_drop.Text = needs[k, 12];
+            Urg_drop.Text = last[ 12];
             if(Grain_drop.Enabled == true)
-            Grain_drop.Text = needs[k, 13];
+            Grain_drop.Text = last[ 13];
             if(Etch_drop.Enabled == true)
-            Etch_drop.Text = needs[k, 14];
+            Etch_drop.Text = last[ 14];
             if(Seam_Drop.Enabled == true)
-            Seam_Drop.Text = needs[k, 15];
+            Seam_Drop.Text = last[ 15];
             if(Pair_drop.Enabled == true)
-            Pair_drop.Text = needs[k, 16];
+            Pair_drop.Text = last[ 16];
             if(Prod_Drop.Enabled == true)
-            if (needs[k, 17] != "")
+            if (last[ 17] != "")
             {
-                if (needs[k, 17] != "Farm & Ranch" && needs[k, 17] != "Balls" && needs[k, 17] != "Ball Mounts" && needs[k, 17] != "Cab Protector" && needs[k, 17] != "Flat Bed" && needs[k, 17] != "Gooseneck" && needs[k, 17] != "Job Shop" && needs[k, 17] != "Motorcycle Latch" && needs[k, 17] != "RCVR Hitch" && needs[k, 17] != "RV" && needs[k, 17] != "GN Coupler" && needs[k, 17] != "Tow/Stow" && needs[k, 17] != "Bison")
+                if (last[ 17] != "Farm & Ranch" && last[ 17] != "Balls" && last[ 17] != "Ball Mounts" && last[ 17] != "Cab Protector" && last[ 17] != "Flat Bed" && last[ 17] != "Gooseneck" && last[ 17] != "Job Shop" && last[ 17] != "Motorcycle Latch" && last[ 17] != "RCVR Hitch" && last[ 17] != "RV" && last[ 17] != "GN Coupler" && last[ 17] != "Tow/Stow" && last[ 17] != "Bison")
                 {
-                    Prod_Drop.Text = "Other"; Prod_Line_exp.Visible = true; Prod_Ex_box.Visible = true; Prod_Ex_box.Text = needs[k, 17];
+                    Prod_Drop.Text = "Other"; Prod_Line_exp.Visible = true; Prod_Ex_box.Visible = true; Prod_Ex_box.Text = last[ 17];
                 }
                 else
                 {
 
-                    Prod_Drop.Text = needs[k, 17]; Prod_Line_exp.Visible = false; Prod_Ex_box.Visible = false; Prod_Ex_box.Text = "";
+                    Prod_Drop.Text = last[ 17]; Prod_Line_exp.Visible = false; Prod_Ex_box.Visible = false; Prod_Ex_box.Text = "";
                 }
             }
             if (Dept_Drop.Enabled == true)
-            if (needs[k, 18] != "")
+            if (last[ 18] != "")
             {
-                if (needs[k, 18] != "R&D Product Prototypes" && needs[k, 18] != "Engineering, Testing" && needs[k, 18] != "Production Equipment" && needs[k, 18] != "Fixtures, Jigs, Tooling" && needs[k, 18] != "Show Inventory" && needs[k, 18] != "Marketing" && needs[k, 18] != "Maintenance" && needs[k, 18] != "Safety" && needs[k, 18] != "Quality")
+                if (last[ 18] != "R&D Product Prototypes" && last[ 18] != "Engineering, Testing" && last[ 18] != "Production Equipment" && last[ 18] != "Fixtures, Jigs, Tooling" && last[ 18] != "Show Inventory" && last[ 18] != "Marketing" && last[ 18] != "Maintenance" && last[ 18] != "Safety" && last[ 18] != "Quality")
                 {
-                    Dept_Drop.Text = "Other"; Dept_exp.Visible = true; Dep_Ex_box.Visible = true; Dep_Ex_box.Text = needs[k, 18];
+                    Dept_Drop.Text = "Other"; Dept_exp.Visible = true; Dep_Ex_box.Visible = true; Dep_Ex_box.Text = last[ 18];
                 }
                 else
                 {
 
-                    Dept_Drop.Text = needs[k, 18]; Dept_exp.Visible = false; Dep_Ex_box.Visible = false; Dep_Ex_box.Text = "";
+                    Dept_Drop.Text = last[ 18]; Dept_exp.Visible = false; Dep_Ex_box.Visible = false; Dep_Ex_box.Text = "";
                 }
             }
             if(Rescrit_drop.Enabled == true)
-            Rescrit_drop.Text = needs[k, 19];
+            Rescrit_drop.Text = last[ 19];
             if(Circle_drop.Enabled == true)
-            Circle_drop.Text = needs[k, 20];
+            Circle_drop.Text = last[ 20];
             if(Las_drop.Enabled == true)
-            if (needs[k, 21] != "")
+            if (last[ 21] != "")
             {
-                if (needs[k, 21] != "Place in R&D Rack" && needs[k, 21] != "Page Engineer, Then Place in R&D Rack" && needs[k, 21] != "To Press Brake" && needs[k, 21] != "To R&D Shop")
+                if (last[ 21] != "Place in R&D Rack" && last[ 21] != "Page Engineer, Then Place in R&D Rack" && last[ 21] != "To Press Brake" && last[ 21] != "To R&D Shop")
                 {
-                    Las_drop.Text = "Other"; Aft_las_exp.Visible = true; Las_Ex_box.Visible = true; Las_Ex_box.Text = needs[k, 21];
+                    Las_drop.Text = "Other"; Aft_las_exp.Visible = true; Las_Ex_box.Visible = true; Las_Ex_box.Text = last[ 21];
                 }
                 else
                 {
-                    Las_drop.Text = needs[k, 21]; Aft_las_exp.Visible = false; Las_Ex_box.Visible = false; Las_Ex_box.Text = needs[k, 21] = "";
+                    Las_drop.Text = last[ 21]; Aft_las_exp.Visible = false; Las_Ex_box.Visible = false; Las_Ex_box.Text = last[ 21] = "";
                 }
             }
             if(Pres_drop.Enabled == true)
-            if (needs[k, 22] != "")
+            if (last[ 22] != "")
             {
-                if (needs[k, 22] != "Page Engineer" && needs[k, 22] != "To R&D Rack" && needs[k, 22] != "To R&D Shop")
+                if (last[ 22] != "Page Engineer" && last[ 22] != "To R&D Rack" && last[ 22] != "To R&D Shop")
                 {
-                    Pres_drop.Text = "Other"; Aft_press_exp.Visible = true; Pres_Ex_box.Visible = true; Pres_Ex_box.Text = needs[k, 22];
+                    Pres_drop.Text = "Other"; Aft_press_exp.Visible = true; Pres_Ex_box.Visible = true; Pres_Ex_box.Text = last[ 22];
                 }
                 else
                 {
-                    Las_drop.Text = needs[k, 22]; Aft_press_exp.Visible = false; Pres_Ex_box.Visible = false; Pres_Ex_box.Text = needs[k, 22] = "";
+                    Las_drop.Text = last[ 22]; Aft_press_exp.Visible = false; Pres_Ex_box.Visible = false; Pres_Ex_box.Text = last[ 22] = "";
                 }
             }
-            Notes_Box.Text = needs[k, 25];
-
-            
-
+            Notes_Box.Text = last[ 25];
         }
+
         Function_Drop_SelectedIndexChanged(null, null);
     }
 
@@ -1197,19 +1186,6 @@ public partial class About : Page
     protected void SC_But_Click(object sender, EventArgs e)
     {
         Function_Drop_SelectedIndexChanged(null, null);
-        MailMessage m = new MailMessage();
-        SmtpClient sc = new SmtpClient();
-
-        m.From = new MailAddress("ryanhuse@gmail.com", "Engineering");
-        m.To.Add(new MailAddress("ryanhuse@turnoverball.com", "Lasers"));
-        m.Subject = "Test";
-        m.Body = "Part " + Desc_Box.Text + " is ready";
-
-        sc.Host = "smtp.gmail.com";
-        sc.Port = 587;
-        sc.Credentials = new System.Net.NetworkCredential("ryanhuse@gmail.com", "Chetdad#1");
-        sc.EnableSsl = true;
-        //sc.Send(m);
         makeList();
         Part_Num_Box.Text = "";
         Quan_Box.Text = "";

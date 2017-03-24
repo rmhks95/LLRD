@@ -306,9 +306,33 @@ public partial class Contact : System.Web.UI.Page
         Next(finished);
         RemakeFile(finished);
 
-
+        SendEmail(finished);
         GoBack();
 
+    }
+
+
+    protected void SendEmail(string[,] items)
+    {
+
+        for (int i = 0; i < 50; i++)
+        {
+            if (items[i, 0] != null)
+            {
+                MailMessage m = new MailMessage();
+                SmtpClient sc = new SmtpClient("turnoverball-com.mail.protection.outlook.com");
+                sc.Host = "turnoverball-com.mail.protection.outlook.com";
+                sc.DeliveryMethod = SmtpDeliveryMethod.Network;
+                sc.UseDefaultCredentials = false;
+                sc.Credentials = System.Net.CredentialCache.DefaultNetworkCredentials;
+                m.From = new MailAddress("CNC@turnoverball.com", "Formed Parts");
+                m.To.Add(new MailAddress("ryanhuse@turnoverball.com", "Engineering"));
+                m.Subject = items[i, 2] + " " + items[i, 4];
+                m.Body = "Part #: " + items[i, 4] + "\nPart Description: " + items[i, 3] + "\nMaterial: " + items[i, 10] + "\nNested at: " + items[i, 29];
+                sc.EnableSsl = true;
+                sc.Send(m);
+            }
+        }
     }
 
 

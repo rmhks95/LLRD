@@ -166,8 +166,7 @@ public partial class Home : System.Web.UI.Page
 
 
         found = find(display);
-
-       if (found[0, 0] != null)
+        if (found[0, 0] != null && PartNum.Text != "")
         {
             Needs_Box.Visible = false;
             GridView1.Visible = true;
@@ -243,7 +242,7 @@ public partial class Home : System.Web.UI.Page
             {
                 if (found[i, 0] != null)
                 {
-                    
+
                     DataRow dr = dt2.NewRow();
                     dr["Location"] = found[i, 28];
                     dr["Date Entered"] = found[i, 0];
@@ -289,7 +288,6 @@ public partial class Home : System.Web.UI.Page
             GridView1.DataSource = dt2;
             Session["dt2"] = dt2;
             GridView1.DataBind();
-
         }
         else
         {
@@ -318,7 +316,7 @@ public partial class Home : System.Web.UI.Page
     /// </summary>
     /// <param name="display"> Array of Parts </param>
     /// <returns></returns>
-    protected string[,] find(string[,] display)
+   /* protected string[,] find(string[,] display)
     {
         int o = 0;
         for (int i = 0; i < total; i++)
@@ -335,7 +333,66 @@ public partial class Home : System.Web.UI.Page
         }
         return found;
     }
+    */
 
+
+    protected string[,] find(string [,] display)
+    {
+        string[] check = new string[32];
+        int o = 0;
+        for (int k = 0; k < (display.Length/31); k++)
+        {
+            if (display[k, 0] != null)
+            {
+                for(int z = 0; z<31; z++)
+                {
+                    check[z] = display[k, z];
+                }
+
+
+                for(int p=0; p<31; p++)
+                {
+                    if (check[p] != null)
+                    {
+                        if (check[p].ToLower().Contains(PartNum.Text.ToLower()))
+                        {
+                            for (int j = 0; j < 31; j++)
+                            {
+                                found[o, j] = display[k, j];
+                            }
+                            o++;
+                            break;
+                        }
+                    }
+                   
+                }
+
+                /*
+                if(check.Contains(PartNum.Text)){
+
+                    for (int j = 0; j < 31; j++)
+                    {
+                        found[o, j] = display[k, j];
+                    }
+                    o++;
+
+                }
+                
+                if (Array.IndexOf(check, (PartNum.Text)) >= 0)
+                {
+                    for (int j = 0; j < 31; j++)
+                    {
+                        found[o, j] = display[k, j];
+                    }
+                    o++;
+
+                }
+                */
+            }
+            
+        }
+        return found;
+    }
 
 
 
