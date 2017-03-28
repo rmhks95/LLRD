@@ -287,8 +287,8 @@ public partial class Home : System.Web.UI.Page
 
             Session["dt2"] = dt2;
 
-            if ((!IsPostBack))
-                GridView1.DataBind();
+            if (!IsPostBack) { GridView1.DataBind(); }
+                
 
             Needs_Box.Visible = false;
         }
@@ -474,26 +474,27 @@ public partial class Home : System.Web.UI.Page
         display[selected, 2] = ((TextBox)(row.Cells[5].Controls[0])).Text;
         display[selected, 3] = ((TextBox)(row.Cells[7].Controls[0])).Text;
         display[selected, 4] = ((TextBox)(row.Cells[8].Controls[0])).Text;
-        display[selected, 5] = ((TextBox)(row.Cells[10].Controls[0])).Text;
-        display[selected, 6] = ((TextBox)(row.Cells[11].Controls[0])).Text;
-        display[selected, 7] = ((TextBox)(row.Cells[12].Controls[0])).Text;
-        display[selected, 8] = ((TextBox)(row.Cells[13].Controls[0])).Text;
-        display[selected, 9] = ((TextBox)(row.Cells[14].Controls[0])).Text;
-        display[selected, 10] = ((TextBox)(row.Cells[15].Controls[0])).Text;
-        display[selected, 11] = ((TextBox)(row.Cells[16].Controls[0])).Text;
-        display[selected, 12] = ((TextBox)(row.Cells[17].Controls[0])).Text;
-        display[selected, 13] = ((TextBox)(row.Cells[18].Controls[0])).Text;
-        display[selected, 14] = ((TextBox)(row.Cells[19].Controls[0])).Text;
-        display[selected, 15] = ((TextBox)(row.Cells[20].Controls[0])).Text;
-        display[selected, 16] = ((TextBox)(row.Cells[21].Controls[0])).Text;
-        display[selected, 17] = ((TextBox)(row.Cells[22].Controls[0])).Text;
-        display[selected, 18] = ((TextBox)(row.Cells[23].Controls[0])).Text;
-        display[selected, 19] = ((TextBox)(row.Cells[24].Controls[0])).Text;
-        display[selected, 20] = ((TextBox)(row.Cells[25].Controls[0])).Text;
-        display[selected, 21] = ((TextBox)(row.Cells[26].Controls[0])).Text;
-        display[selected, 22] = ((TextBox)(row.Cells[27].Controls[0])).Text;
-        display[selected, 23] = ((TextBox)(row.Cells[28].Controls[0])).Text;
-        display[selected, 24] = ((TextBox)(row.Cells[29].Controls[0])).Text;
+        display[selected, 5] = ((TextBox)(row.Cells[9].Controls[0])).Text;
+        display[selected, 6] = ((TextBox)(row.Cells[10].Controls[0])).Text;
+        display[selected, 7] = ((TextBox)(row.Cells[11].Controls[0])).Text;
+        display[selected, 8] = ((TextBox)(row.Cells[12].Controls[0])).Text;
+        display[selected, 9] = ((TextBox)(row.Cells[13].Controls[0])).Text;
+        display[selected, 10] = ((TextBox)(row.Cells[14].Controls[0])).Text;
+        display[selected, 11] = ((TextBox)(row.Cells[15].Controls[0])).Text;
+        display[selected, 12] = ((TextBox)(row.Cells[16].Controls[0])).Text;
+        display[selected, 13] = ((TextBox)(row.Cells[17].Controls[0])).Text;
+        display[selected, 14] = ((TextBox)(row.Cells[18].Controls[0])).Text;
+        display[selected, 15] = ((TextBox)(row.Cells[19].Controls[0])).Text;
+        display[selected, 16] = ((TextBox)(row.Cells[20].Controls[0])).Text;
+        display[selected, 17] = ((TextBox)(row.Cells[21].Controls[0])).Text;
+        display[selected, 18] = ((TextBox)(row.Cells[22].Controls[0])).Text;
+        display[selected, 19] = ((TextBox)(row.Cells[23].Controls[0])).Text;
+        display[selected, 20] = ((TextBox)(row.Cells[24].Controls[0])).Text;
+        display[selected, 21] = ((TextBox)(row.Cells[25].Controls[0])).Text;
+        display[selected, 22] = ((TextBox)(row.Cells[26].Controls[0])).Text;
+        display[selected, 23] = ((TextBox)(row.Cells[27].Controls[0])).Text;
+        display[selected, 24] = ((TextBox)(row.Cells[28].Controls[0])).Text;
+        display[selected, 26] = ((TextBox)(row.Cells[29].Controls[0])).Text;
         display[selected, 25] = ((TextBox)(row.Cells[30].Controls[0])).Text;
         //dt.Rows[row.DataItemIndex]["Nest File Location"] = ((TextBox)(row.Cells[29].Controls[0])).Text;
         //dt.Rows[row.DataItemIndex]["IsComplete"] = ((CheckBox)(row.Cells[3].Controls[0])).Checked;
