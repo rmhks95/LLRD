@@ -128,6 +128,50 @@ public partial class Contact : System.Web.UI.Page
     }
 
 
+    /// <summary>
+    ///  Hyperlinks
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void GridView1_DataBound(object sender, GridViewRowEventArgs e)
+    {
+
+        if (e.Row.RowType == DataControlRowType.DataRow)
+        {
+            string location = (e.Row.Cells[1].Text);
+            string type;
+            string dxf = (e.Row.Cells[9].Text);
+            if (dxf != "&nbsp;")
+            {
+                type = dxf.Substring(dxf.Length - 3);
+                HyperLink dxfLink = new HyperLink();
+                dxfLink.NavigateUrl = dxf;
+                if (type == "stp")
+                {
+
+                    dxfLink.Text = "STEP";
+                }
+                else
+                {
+
+                    dxfLink.Text = "DXF";
+                }
+                e.Row.Cells[9].Controls.Add(dxfLink);
+            }
+
+
+            string pdf = (e.Row.Cells[10].Text);
+            if (pdf != "&nbsp;")
+            {
+                HyperLink pdfLink = new HyperLink();
+                pdfLink.NavigateUrl = pdf;
+                pdfLink.Text = "PDF";
+                e.Row.Cells[10].Controls.Add(pdfLink);
+            }
+        }
+
+    }
+
     protected string[,] ReadIP()
     {
         needs = new string[50, 28];
@@ -207,11 +251,11 @@ public partial class Contact : System.Web.UI.Page
         string[,] needs1 = new string[50, 31];
         string[,] display1 = new string[50, 31];
         string[] split = new string[1300];
-        var file = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"App_Data/P1.txt");
+        var file = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"App_Data/P4.txt");
         if (File.Exists(file))
         {
 
-            using (StreamReader SR = new StreamReader(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"App_Data/P1.txt")))
+            using (StreamReader SR = new StreamReader(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"App_Data/P4.txt")))
             {
                 string line;
                 int m = 0;
@@ -328,9 +372,9 @@ public partial class Contact : System.Web.UI.Page
                 sc.UseDefaultCredentials = false;
                 sc.Credentials = System.Net.CredentialCache.DefaultNetworkCredentials;
                 m.From = new MailAddress("CNC@turnoverball.com", "Nested Parts");
-                /// m.To.Add(new MailAddress("jeremymoyer@turnoverball.com", "Engineering"));
-                ///m.To.Add(new MailAddress("cleatstockebrand@turnoverball.com", "Engineering"));
-                /// m.To.Add(new MailAddress("austinrasmussen@turnoverball.com", "Engineering"));
+                m.To.Add(new MailAddress("jeremymoyer@turnoverball.com", "Engineering"));
+                m.To.Add(new MailAddress("cleatstockebrand@turnoverball.com", "Engineering"));
+                m.To.Add(new MailAddress("austinrasmussen@turnoverball.com", "Engineering"));
                 m.To.Add(new MailAddress("ryanhuse@turnoverball.com", "Engineering"));
                 m.Subject = items[i, 2] + " " + items[i, 4];
                 m.Body = "Part #: " + items[i, 4] + "\nPart Description: " + items[i, 3] + "\nMaterial: " + items[i, 10] + "\nNested at: " + items[i, 29] + "\nMachine Part was Nested for: " + MachineNum.Text;
@@ -342,7 +386,7 @@ public partial class Contact : System.Web.UI.Page
 
     private void GoBack()
     {
-        File.Delete(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"App_Data/P1.txt"));
+        File.Delete(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"App_Data/P4.txt"));
         ClientScript.RegisterStartupScript(this.GetType(), "newWindow", String.Format("<script>document.location.href = ('{0}');</script>", "NeedsNested"));
     }
 
@@ -385,51 +429,6 @@ public partial class Contact : System.Web.UI.Page
 
     }
 
-    /// <summary>
-    ///  Hyperlinks
-    /// </summary>
-    /// <param name="sender"></param>
-    /// <param name="e"></param>
-    protected void GridView1_DataBound(object sender, GridViewRowEventArgs e)
-    {
-
-        if (e.Row.RowType == DataControlRowType.DataRow)
-        {
-            string location = (e.Row.Cells[1].Text);
-            string type;
-            string dxf = (e.Row.Cells[9].Text);
-            if (dxf != "&nbsp;")
-            {
-                type = dxf.Substring(dxf.Length - 3);
-                HyperLink dxfLink = new HyperLink();
-                dxfLink.NavigateUrl = dxf;
-                if (type == "stp")
-                {
-
-                    dxfLink.Text = "STEP";
-                }
-                else
-                {
-
-                    dxfLink.Text = "DXF";
-                }
-
-                e.Row.Cells[9].Controls.Add(dxfLink);
-            }
-
-
-            string pdf = (e.Row.Cells[10].Text);
-            if (pdf != "&nbsp;")
-            {
-                HyperLink pdfLink = new HyperLink();
-                pdfLink.NavigateUrl = pdf;
-                pdfLink.Text = "PDF";
-                e.Row.Cells[10].Controls.Add(pdfLink);
-            }
-        }
-
-    }
-
     protected void Next(string[,] edited)
     {
 
@@ -458,5 +457,4 @@ public partial class Contact : System.Web.UI.Page
         }
 
     }
-
 }

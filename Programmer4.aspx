@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Programmer::" Language="C#"  MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeFile="Programmer1.aspx.cs" Inherits="Contact" %>
+﻿<%@ Page Title="Programmer::" Language="C#"  MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeFile="Programmer4.aspx.cs" Inherits="Contact" %>
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="cc1" %>
 
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">  
@@ -7,9 +7,8 @@
     <h1>  <asp:Image ID="Image2" runat="server" Height="87px" ImageUrl="~/Content/B&amp;W-Logo.jpg" Width="165px" />
         Input for Programmer</h1>
 
-    
-<div style="margin-left: -100px ; margin-right:auto;">
 
+    <div style="margin-left: -100px ; margin-right:auto;">
     <asp:GridView ID="GridView1" runat="server" BackColor="White" OnRowDataBound="GridView1_DataBound"  BorderColor="#999999" BorderStyle="None" BorderWidth="1px" CellPadding="3">
         <AlternatingRowStyle BackColor="#DCDCDC" />
                 <EmptyDataTemplate>
@@ -26,9 +25,9 @@
         <SortedDescendingHeaderStyle BackColor="#000065" />
     </asp:GridView>
   
-    
-    
     </div>
+    
+
     
 
     <br />

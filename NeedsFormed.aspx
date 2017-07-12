@@ -13,6 +13,7 @@
   
     <br />
   
+<div style="margin-left: -100px ; margin-right:auto;">
     <br />
     <asp:GridView ID="GridView1" runat="server" BackColor="White" BorderColor="#999999" BorderStyle="None" OnRowDataBound="GridView1_DataBound" BorderWidth="1px" CellPadding="3">
         <AlternatingRowStyle BackColor="#DCDCDC" />
@@ -41,7 +42,7 @@
     </asp:GridView>
   
     
-    
+    </div>
 
     <br />
     <asp:Button ID="Form_But0" runat="server" Text="Form Selected" OnClick="FormBut_Click" />

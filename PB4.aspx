@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Programmer::" Language="C#"  MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeFile="Programmer1.aspx.cs" Inherits="Contact" %>
+﻿<%@ Page Title="Programmer::" Language="C#"  MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeFile="PB4.aspx.cs" Inherits="Contact" %>
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="cc1" %>
 
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">  
@@ -7,10 +7,9 @@
     <h1>  <asp:Image ID="Image2" runat="server" Height="87px" ImageUrl="~/Content/B&amp;W-Logo.jpg" Width="165px" />
         Input for Programmer</h1>
 
-    
-<div style="margin-left: -100px ; margin-right:auto;">
 
-    <asp:GridView ID="GridView1" runat="server" BackColor="White" OnRowDataBound="GridView1_DataBound"  BorderColor="#999999" BorderStyle="None" BorderWidth="1px" CellPadding="3">
+    <div style="margin-left: -100px ; margin-right:auto;">
+    <asp:GridView ID="GridView1" runat="server" BackColor="White" BorderColor="#999999" BorderStyle="None" BorderWidth="1px" CellPadding="3">
         <AlternatingRowStyle BackColor="#DCDCDC" />
                 <EmptyDataTemplate>
             <asp:CheckBox ID="Selected" runat="server" Enabled="true"/>
@@ -25,23 +24,25 @@
         <SortedDescendingCellStyle BackColor="#CAC9C9" />
         <SortedDescendingHeaderStyle BackColor="#000065" />
     </asp:GridView>
-  
+  </div>
     
     
-    </div>
+
     
 
     <br />
-    Machine Part is Nested for: 
-    <asp:TextBox ID="MachineNum" runat="server" required="true"></asp:TextBox>
-    <br />
-    <br />
+  
+    
+    
+
+    
+
     Nest File Location:
-    <asp:TextBox ID="fileLoca" runat="server" required ="true"></asp:TextBox>
+    <asp:TextBox ID="fileLoca" runat="server"></asp:TextBox>
     <br />
     <br />
     <asp:Button ID="Finish_But" runat="server" Text="Finished" OnClick="Finish_But_Click" />
-    <br />
+<br />
   
     
 <script type="text/javascript">  

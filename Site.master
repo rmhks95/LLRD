@@ -50,16 +50,18 @@
                 </div>
                 <div class="navbar-collapse collapse">
                     <ul class="nav navbar-nav">
-                        <li><a runat="server" href="Home">Home</a></li>
-                        <li><a runat="server" href="New Entry">New Entry</a></li>
+                        <li><a runat="server" href="All Laser Parts">All Laser Parts</a></li>
+                        <li><a runat="server" href="New Entry">New Laser Part</a></li>
                         <li><a runat="server" href="NeedsNested">Needs Nested</a></li>
-                        <li><a runat="server" href="NeedsFormed">Needs Formed</a></li>
+<%--                        <li><a runat="server" href="NeedsFormed">Needs Formed</a></li>--%>
                         <li><a runat="server" href="InProgress">In Progress</a></li>
                         <li><a runat="server" href="Finished">Finished</a></li>
                        
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
-                         <li><a runat="server" href="Search.aspx">Search</a></li>
+                        <li><a runat="server" href="New RD.aspx">New R&D Part</a></li>
+                        <li><a runat="server" href="AllRD.aspx">All R&D Parts</a></li>
+                        <li><a href=Search.aspx><img src=https://integrityhr.com/wp-content/uploads/2015/11/IHR_search_icon-200x200.png height="21" width="21" /></a></li>        
                     </ul>
                 </div>
             </div>

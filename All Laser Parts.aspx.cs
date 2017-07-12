@@ -1,112 +1,111 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.IO;
 using System.Data;
 using System.Drawing;
 using System.Web.UI.WebControls;
-using System.Collections.Generic;
+
 
 public partial class Home : System.Web.UI.Page
 {
     static int total;
-    public string[,] needs = new string[total, 32];
-    string[,] display = new string[total, 32];
-    string[,] found = new string[total, 32];
+    int showing;
+    public string[,] needs = new string[total, 31];
+    string[,] display = new string[total, 31];
 
 
     /// <summary>
-    /// Main method, that gets and displays the parts
+    /// Main method that gets parts and displays in table
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>
     protected void Page_Load(object sender, EventArgs e)
     {
 
+        total = CountParts();
+        showing = Show();
+        Start();
 
     }
 
-    protected void start() { 
-        total = CountParts();
+    protected void Start() {
 
-        needs = new string[total, 32];
-        display = new string[total, 32];
-        found = new string[total,32];
-
-
-        if (!File.Exists(Path.Combine(AppDomain.CurrentDomain.BaseDirectory,@"App_Data\needsNested.txt")))
+        if (!File.Exists(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"App_Data\needsNested.txt")))
         {
-            var yep= File.Create(Path.Combine(AppDomain.CurrentDomain.BaseDirectory,@"App_Data\needsNested.txt"));
+            var yep = File.Create(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"App_Data\needsNested.txt"));
             yep.Close();
         }
-        if (!File.Exists(Path.Combine(AppDomain.CurrentDomain.BaseDirectory,@"App_Data\needsFormed.txt")))
+        if (!File.Exists(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"App_Data\needsFormed.txt")))
         {
-            var yep = File.Create(Path.Combine(AppDomain.CurrentDomain.BaseDirectory,@"App_Data\needsFormed.txt"));
+            var yep = File.Create(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"App_Data\needsFormed.txt"));
             yep.Close();
         }
-        if (!File.Exists(Path.Combine(AppDomain.CurrentDomain.BaseDirectory,@"App_Data\InProgress.txt")))
+        if (!File.Exists(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"App_Data\InProgress.txt")))
         {
-            var yep = File.Create(Path.Combine(AppDomain.CurrentDomain.BaseDirectory,@"App_Data\InProgress.txt"));
+            var yep = File.Create(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"App_Data\InProgress.txt"));
             yep.Close();
         }
-        if (!File.Exists(Path.Combine(AppDomain.CurrentDomain.BaseDirectory,@"App_Data\Finished.txt")))
+        if (!File.Exists(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"App_Data\Finished.txt")))
         {
-            var yep = File.Create(Path.Combine(AppDomain.CurrentDomain.BaseDirectory,@"App_Data\Finished.txt"));
+            var yep = File.Create(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"App_Data\Finished.txt"));
             yep.Close();
         }
-		if (!File.Exists(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"App_Data/FinishedPB.txt")))
+        if (!File.Exists(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"App_Data/FinishedPB.txt")))
         {
             var yep = File.Create(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"App_Data/FinishedPB.txt"));
             yep.Close();
         }
-        string[] split = new string[total];
-        StreamReader SR = new StreamReader(Path.Combine(AppDomain.CurrentDomain.BaseDirectory,@"App_Data\needsNested.txt"));
+
+        needs = new string[total, 31];
+        display = new string[total, 31];
+
+        string[] split = new string[(total * 31)];
+        StreamReader SR = new StreamReader(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"App_Data\needsNested.txt"));
         int toUse = 0;
         string line;
-        int m = 0;
         for (int i = 0; i < total; i++)
         {
-            if (toUse == 0)
-            {
-                needs[i, 28] = "Needs Nested";
-            }
-            else if (toUse == 1)
-            {
-                needs[i, 28] = "Needs Formed";
-            }
-            else if(toUse == 2)
-            {
-                needs[i, 28] = "In Progress";
 
-            }
-            else if (toUse == 3)
-            {
-                needs[i, 28] = "Finished Nested";
-
-            }
-            else if (toUse == 4)
-            {
-                needs[i, 28] = "Finished Formed";
-
-            }
 
             line = SR.ReadLine();
             if (line != null)
             {
-                m = 0;
                 split = line.Split('|');
+                int use;
+                if (split.Length < 31)
+                    use = split.Length;
+                else
+                    use = 31;
 
-                for (int j = 0; j < 32; j++)
+                for (int j = 0; j < (use - 1); j++)
                 {
-                    if ((split.Length-1) >= m)
-                    {
-                        if (j != 28)
-                        {
-                            needs[i, j] = split[m];
-                        }
-                        m++;
-                        //needs = (string[,])Session["nest"];
-                    }
+                    needs[i, j] = split[j];
                 }
+                if (toUse == 0)
+                {
+                    needs[i, 28] = "Needs Nested";
+                }
+                else if (toUse == 1)
+                {
+                    needs[i, 28] = "Needs Formed";
+                }
+                else if (toUse == 2)
+                {
+                    needs[i, 28] = "In Progress";
+                }
+                else if (toUse == 3)
+                {
+                    needs[i, 28] = "Finished Nested";
+
+                }
+                else if (toUse == 4)
+                {
+                    needs[i, 28] = "Finished Formed";
+
+                }
+                //needs = (string[,])Session["nest"];
+
             }
             else
             {
@@ -115,23 +114,23 @@ public partial class Home : System.Web.UI.Page
                 {
                     case 1:
                         SR.Close();
-                        SR = new StreamReader(Path.Combine(AppDomain.CurrentDomain.BaseDirectory,@"App_Data\needsFormed.txt"));
+                        SR = new StreamReader(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"App_Data\needsFormed.txt"));
                         break;
                     case 2:
                         SR.Close();
-                        SR = new StreamReader(Path.Combine(AppDomain.CurrentDomain.BaseDirectory,@"App_Data\InProgress.txt"));
+                        SR = new StreamReader(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"App_Data\InProgress.txt"));
                         break;
                     case 3:
                         SR.Close();
-                        SR = new StreamReader(Path.Combine(AppDomain.CurrentDomain.BaseDirectory,@"App_Data\Finished.txt"));
+                        SR = new StreamReader(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"App_Data\Finished.txt"));
                         break;
                     case 4:
-						SR.Close();
-                        SR = new StreamReader(Path.Combine(AppDomain.CurrentDomain.BaseDirectory,@"App_Data\FinishedPB.txt"));
+                        SR.Close();
+                        SR = new StreamReader(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"App_Data\FinishedPB.txt"));
                         break;
-					case 5:
+                    case 5:
                         //SR.Close();
-                        break;                   
+                        break;
                 }
 
 
@@ -139,9 +138,7 @@ public partial class Home : System.Web.UI.Page
         }
         SR.Close();
 
-
-        /*
-        string[] open = new string[(total * 31)];
+        string[] open = new string[total];
         List<string> closed = new List<string>();
         for (int i = 0; i < total; i++)
         {
@@ -153,111 +150,48 @@ public partial class Home : System.Web.UI.Page
 
         foreach (string date in open)
         {
-            if (date != null && date != "")
+            if (date != null)
                 closed.Add(date);
         }
-        
+
+
 
         List<DateTime> dates = closed.Select(date => DateTime.Parse(date)).ToList();
 
         dates.Sort((a, b) => b.CompareTo(a));
 
 
-        display = new string[total, 32];
+        display = new string[showing, 31];
         int p = 0;
-        int n = open.Length-1;
-        while (n>-1)
+        foreach (var date in dates)
         {
-            foreach (var date in dates)
+            for (int h = total - 1; h > -1; h--)
             {
-                for (int h = total-1; h> -1; h--)
+                if (p < showing)
                 {
-                    if (p < total)
+                    if (date.ToString() == needs[h, 0])
                     {
-                        if (date.ToString() == needs[h, 0])
+                        for (int q = 0; q < 31; q++)
                         {
-                            for (int q = 0; q < 32; q++)
-                            {
-                                display[p, q] = needs[h, q];
-                            }
-                            needs[h, 0] = "";
-
-                            p++;
+                            display[p, q] = needs[h, q];
                         }
+                        needs[h, 0] = "";
 
+                        p++;
                     }
+
                 }
             }
-            n=n-1;
         }
+        loadTable(display);
+    }
 
-        */
+    protected void loadTable(string[,] display) { 
 
-       string[] open = new string[(total * 31)];
-        List<string> closed = new List<string>();
-        for (int i = 0; i < total; i++)
+        if (display[0, 0] != null)
         {
-            if (needs[i, 0] != null)
-            {
-                open[i] = needs[i, 0];
-            }
-        }
-        
-        foreach(string date in open)
-        {
-            if(date != null)
-            closed.Add(date);
-        }
-
-        
-        List<DateTime> dates = closed.Select(date => DateTime.Parse(date)).ToList();
-
-        dates.Sort((a, b) => b.CompareTo(a));
-        
-
-        display = new string[total, 31];
-        int p = 0;
-        int n = open.Length - 1;
-        while (n > -1)
-        {
-            foreach(var date in dates)
-            { 
-                for (int h = total - 1; h > -1; h--)
-                {
-                    if (p < total)
-                    {
-                        if (date.ToString() == needs[h, 0])
-                        {
-                            for (int q = 0; q < 31; q++)
-                            {
-                                display[p, q] = needs[h, q];
-                            }
-                            needs[h, 0] = "";
-
-                            p++;
-                        }
-
-                    }
-                }
-            }
-            n = n - 1;
-        }
-
-        if (DropDownList1.Text == "All")
-            found = findAll(display);
-        else if (DropDownList1.Text == "Part Numbers")
-            found = findPN(display);
-        else
-        {
-            found = findDS(display);
-        }
-		
-        if (found[0, 0] != null && PartNum.Text != "")
-        {
-            
-            GridView1.Visible = true;
-            Session["array"] = found;
-
+            Needs_Box.Visible = false;
+            Session["array"] = display;
             DataTable dt2 = new DataTable("test");
 
             // DataColumn you can use constructor DataColumn(name,type);
@@ -325,68 +259,98 @@ public partial class Home : System.Web.UI.Page
             dt2.Columns.Add(dc28);
 
 
+            int show;
+            if (display.Length / 31 > 0)
+                show = (display.Length / 31);
+            else
+                show = 1;
 
-            for (int i = 0; i < total; i++)
+
+            for (int i = 0; i < show; i++)
             {
-                if (found[i, 0] != null)
+                if (display[i, 0] != null)
                 {
 
                     DataRow dr = dt2.NewRow();
-                    dr["Status"] = found[i, 28];
-                    dr["Date Entered"] = found[i, 0];
-                    dr["Function"] = found[i, 1];
-                    dr["Engineer"] = found[i, 2];
-                    dr["Description"] = found[i, 3];
-                    dr["Part Num."] = found[i, 4];
-                    dr["Qty"] = found[i, 5];
-                    dr["Rev"] = found[i, 6];
-                    dr["Cut by Date"] = found[i, 7];
-                    dr["Form by Date"] = found[i, 8];
-                    dr["Part Type"] = found[i, 9];
-                    dr["Material"] = found[i, 10];
-                    dr["Gas"] = found[i, 11];
-                    dr["Grain Rest."] = found[i, 13];
-                    dr["Etch Lines"] = found[i, 14];
-                    dr["Tube Seam"] = found[i, 15];
-                    dr["Nest in Pairs"] = found[i, 16];
-                    dr["Product Line"] = found[i, 17];
-                    dr["Charge To:"] = found[i, 18];
-                    dr["Pierce Rest."] = found[i, 19];
-                    dr["Circle Corr."] = found[i, 20];
-                    dr["After Cut"] = found[i, 21];
-                    dr["After Form"] = found[i, 22];
-                    dr["DXF"] = found[i, 23];
-                    dr["PDF"] = found[i, 24];
-                    dr["Program Notes"] = found[i, 25];
-                    if (found[i, 27] != null)
+                    dr["Status"] = display[i, 28];
+                    dr["Date Entered"] = display[i, 0];
+                    dr["Function"] = display[i, 1];
+                    dr["Engineer"] = display[i, 2];
+                    dr["Description"] = display[i, 3];
+                    dr["Part Num."] = display[i, 4];
+                    dr["Qty"] = display[i, 5];
+                    dr["Rev"] = display[i, 6];
+                    dr["Cut by Date"] = display[i, 7];
+                    dr["Form by Date"] = display[i, 8];
+                    dr["Part Type"] = display[i, 9];
+                    dr["Material"] = display[i, 10];
+                    dr["Gas"] = display[i, 11];
+                    dr["Grain Rest."] = display[i, 13];
+                    dr["Etch Lines"] = display[i, 14];
+                    dr["Tube Seam"] = display[i, 15];
+                    dr["Nest in Pairs"] = display[i, 16];
+                    dr["Product Line"] = display[i, 17];
+                    dr["Charge To:"] = display[i, 18];
+                    dr["Pierce Rest."] = display[i, 19];
+                    dr["Circle Corr."] = display[i, 20];
+                    dr["After Cut"] = display[i, 21];
+                    dr["After Form"] = display[i, 22];
+                    dr["DXF"] = display[i, 23];
+                    dr["PDF"] = display[i, 24];
+                    dr["Program Notes"] = display[i, 25];
+                    if (display[i, 27] != null)
                     {
-                        dr["Programmer"] = found[i, 27];
+                        dr["Programmer"] = display[i, 27];
                     }
-                    if (found[i, 26] != null)
+                    if (display[i, 26] != null)
                     {
-                        dr["Nest File"] = found[i, 26];
+                        dr["Nest File"] = display[i, 26];
                     }
-                    dr["Date Nested"] = found[i, 29];
-                    dr["Machine"] = found[i, 30];
+                    dr["Date Nested"] = display[i, 29];
+                    dr["Machine"] = display[i, 30];
                     //GridView1.Columns.Insert(0, checkBox);
                     dt2.Rows.Add(dr);
                 }
             }
 
             GridView1.DataSource = dt2;
-
             Session["dt2"] = dt2;
+            if (!IsPostBack)
+                GridView1.DataBind();
 
-            if (!IsPostBack) { GridView1.DataBind(); }
-                
-
-            Needs_Box.Visible = false;
         }
         else
         {
-            Needs_Box.Visible = true;
-            GridView1.Visible = false;
+            Needs_Box.Text = "No Parts";
         }
+    }
+
+
+    protected int Show()
+    {
+        int picked;
+
+
+        if (DropDownList1.Text == "100")
+        {
+            picked = 100;
+        }
+        else if (DropDownList1.Text == "500")
+        {
+            picked = 500;
+        }
+        else
+        {
+            picked = CountParts();
+        }
+
+        return picked;
+    }
+
+    protected void DropDownList1_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        showing = Show();
+        BindData();
     }
 
 
@@ -400,175 +364,14 @@ public partial class Home : System.Web.UI.Page
         total = total + File.ReadAllLines(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"App_Data\needsNested.txt")).Count();
         total = total + File.ReadAllLines(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"App_Data\needsFormed.txt")).Count();
         total = total + File.ReadAllLines(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"App_Data\InProgress.txt")).Count();
-        total = total + File.ReadAllLines(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"App_Data/FinishedPB.txt")).Count();
+        total = total + File.ReadAllLines(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"App_Data\FinishedPB.txt")).Count();
         total = total + File.ReadAllLines(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"App_Data\Finished.txt")).Count() + 5;
-        return (total);
+    return (total);
     }
-
-    /// <summary>
-    /// Finds the part in the array of parts
-    /// </summary>
-    /// <param name="display"> Array of Parts </param>
-    /// <returns></returns>
-   /* protected string[,] find(string[,] display)
-    {
-        int o = 0;
-        for (int i = 0; i < total; i++)
-        {
-            if (display[i, 4] == (PartNum.Text))
-            {
-                for (int j = 0; j < 32; j++)
-                {
-               
-                    found[o, j] = display[i, j];
-                }
-                o++;
-            }
-        }
-        return found;
-    }
-    */
-
-	protected string[,] findPN(string [,] display)
-    {
-        string[] check = new string[32];
-        int o = 0;
-        for (int k = 0; k < (display.Length / 31); k++)
-        {
-            if (display[k, 0] != null)
-            {
-                for (int z = 0; z < 31; z++)
-                {
-                    check[z] = display[k, 4];
-                }
-
-
-                for (int p = 0; p < 31; p++)
-                {
-                    if (check[p] != null)
-                    {
-                        if (check[p].ToLower().Contains(PartNum.Text.ToLower()))
-                        {
-                            for (int j = 0; j < 31; j++)
-                            {
-                                found[o, j] = display[k, j];
-                            }
-                            o++;
-                            break;
-                        }
-                    }
-
-                }
-
-
-            }
-
-        }
-        return found;
-    }
-
-
-    protected string[,] findDS(string[,] display)
-    {
-        string[] check = new string[32];
-        int o = 0;
-        for (int k = 0; k < (display.Length / 31); k++)
-        {
-            if (display[k, 0] != null)
-            {
-                for (int z = 0; z < 31; z++)
-                {
-                    check[z] = display[k, 3];
-                }
-
-
-                for (int p = 0; p < 31; p++)
-                {
-                    if (check[p] != null)
-                    {
-                        if (check[p].ToLower().Contains(PartNum.Text.ToLower()))
-                        {
-                            for (int j = 0; j < 31; j++)
-                            {
-                                found[o, j] = display[k, j];
-                            }
-                            o++;
-                            break;
-                        }
-                    }
-
-                }
-
-
-            }
-
-        }
-        return found;
-    }
-	
-    protected string[,] findAll(string [,] display)
-    {
-        string[] check = new string[32];
-        int o = 0;
-        for (int k = 0; k < (display.Length/32); k++)
-        {
-            if (display[k, 0] != null)
-            {
-                for(int z = 0; z<31; z++)
-                {
-                    check[z] = display[k, z];
-                }
-
-
-                for(int p=0; p<32; p++)
-                {
-                    if (check[p] != null)
-                    {
-                        if (check[p].ToLower().Contains(PartNum.Text.ToLower()))
-                        {
-                            for (int j = 0; j < 31; j++)
-                            {
-                                found[o, j] = display[k, j];
-                            }
-                            o++;
-                            break;
-                        }
-                    }
-                   
-                }
-
-                /*
-                if(check.Contains(PartNum.Text)){
-
-                    for (int j = 0; j < 32; j++)
-                    {
-                        found[o, j] = display[k, j];
-                    }
-                    o++;
-
-                }
-                
-                if (Array.IndexOf(check, (PartNum.Text)) >= 0)
-                {
-                    for (int j = 0; j < 32; j++)
-                    {
-                        found[o, j] = display[k, j];
-                    }
-                    o++;
-
-                }
-                */
-            }
-            
-        }
-        return found;
-    }
-
-
 
 
     /// <summary>
-    /// Colors the Cells based on location
+    /// Colors parts based on location
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>
@@ -577,6 +380,39 @@ public partial class Home : System.Web.UI.Page
         if (e.Row.RowType == DataControlRowType.DataRow)
         {
             string location = (e.Row.Cells[1].Text);
+            string type;
+            string dxf = (e.Row.Cells[27].Text);
+            if (dxf != "&nbsp;")
+            {
+                type = dxf.Substring(dxf.Length - 3);
+                HyperLink dxfLink = new HyperLink();
+                dxfLink.NavigateUrl = dxf;
+                if (type == "stp")
+                {
+
+                    dxfLink.Text = "STEP";
+                }
+                else
+                {
+
+                    dxfLink.Text = "DXF";
+                }
+                e.Row.Cells[27].Controls.Add(dxfLink);
+            }
+
+
+            string pdf = (e.Row.Cells[28].Text);
+            if (pdf != "&nbsp;")
+            {
+                HyperLink pdfLink = new HyperLink();
+                pdfLink.NavigateUrl = pdf;
+                pdfLink.Text = "PDF";
+                pdfLink.Target = "_blank";
+                e.Row.Cells[28].Controls.Add(pdfLink);
+            }
+
+
+
 
             foreach (TableCell cell in e.Row.Cells)
             {
@@ -599,19 +435,19 @@ public partial class Home : System.Web.UI.Page
 
 
     /// <summary>
-    /// Gets row index, then calls BindData()
+    /// Gets row number and calls bind data
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>
     protected void GridView1_RowEditing(object sender, GridViewEditEventArgs e)
     {
-        //GridView1.PageIndex = e.NewEditIndex;
-        GridView1.EditIndex = e.NewEditIndex;
-        BindData();
+       //GridView1.PageIndex = e.NewEditIndex;
+       GridView1.EditIndex = e.NewEditIndex;
+       BindData();
     }
 
     /// <summary>
-    /// Cancels the editing
+    /// Cancels row edit
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>
@@ -624,7 +460,7 @@ public partial class Home : System.Web.UI.Page
     }
 
     /// <summary>
-    /// Updates the row to what is inputed in the textboxes
+    /// Edits part from textboxes
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>
@@ -632,12 +468,13 @@ public partial class Home : System.Web.UI.Page
     {
         //Retrieve the table from the session object.
         DataTable dt = (DataTable)Session["dt2"];
+       
+            //Update the values.
+            GridViewRow row = GridView1.Rows[e.RowIndex];
 
-        //Update the values.
-        GridViewRow row = GridView1.Rows[e.RowIndex];
         int selected = e.RowIndex;
 
-        display = (string[,])Session["array"];
+        display= (string[,])Session["array"];
         display[selected, 2] = ((TextBox)(row.Cells[5].Controls[0])).Text;
         display[selected, 3] = ((TextBox)(row.Cells[4].Controls[0])).Text;
         display[selected, 4] = ((TextBox)(row.Cells[3].Controls[0])).Text;
@@ -667,14 +504,14 @@ public partial class Home : System.Web.UI.Page
         //Reset the edit index.
         GridView1.EditIndex = -1;
 
-        //Bind data to the GridView control.
-        FixLists(display, selected);
-        Page_Load(null, null);
-        BindData();
+            //Bind data to the GridView control.
+            FixLists(display, selected);
+            Page_Load(null, null);
+            BindData();
     }
 
     /// <summary>
-    /// Gives table a source and then Binds it
+    /// Sets table source and binds it
     /// </summary>
     protected void BindData()
     {
@@ -682,15 +519,16 @@ public partial class Home : System.Web.UI.Page
         GridView1.DataBind();
     }
 
+
     /// <summary>
-    /// Fixs part in file
+    /// Updates files to new inputs
     /// </summary>
     /// <param name="use"></param>
-    protected void FixLists(string[,] use, int selected)
+    protected void FixLists(string [,] use, int selected)
     {
 
         string location = use[selected, 28];
-        string[] split = new string[(total * 32)];
+        string[] split = new string[31];
         if (location.Equals("Needs Nested"))
         {
             using (StreamReader SR = new StreamReader(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"App_Data\needsNested.txt")))
@@ -718,6 +556,7 @@ public partial class Home : System.Web.UI.Page
                                 needs[i, j] = use[selected, j];
                             }
                         }
+                        split = new string[31];
                     }
                 }
             }
@@ -730,7 +569,7 @@ public partial class Home : System.Web.UI.Page
                     string output = "";
                     if (needs[i, 0] != null && needs[i, 0] != "")
                     {
-                        for (int j = 0; j < 32; j++)
+                        for (int j = 0; j < 31; j++)
                         {
                             output += needs[i, j] + "|";
                         }
@@ -742,15 +581,14 @@ public partial class Home : System.Web.UI.Page
             }
 
         }
-        else if(location.Equals("Needs Formed"))
+        else if (location.Equals("Needs Formed"))
         {
             using (StreamReader SR = new StreamReader(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"App_Data\needsFormed.txt")))
             {
                 string line;
                 for (int i = 0; i < total; i++)
                 {
-
-
+                    
                     line = SR.ReadLine();
                     if (line != null)
                     {
@@ -770,6 +608,7 @@ public partial class Home : System.Web.UI.Page
                             }
                         }
                     }
+                    split = new string[31];
                 }
             }
             var fole1 = File.Create(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"App_Data\needsFormed.txt"));
@@ -781,7 +620,7 @@ public partial class Home : System.Web.UI.Page
                     string output = "";
                     if (needs[i, 0] != null && needs[i, 0] != "")
                     {
-                        for (int j = 0; j < 32; j++)
+                        for (int j = 0; j < 31; j++)
                         {
                             output += needs[i, j] + "|";
                         }
@@ -792,7 +631,7 @@ public partial class Home : System.Web.UI.Page
                 sw.Close();
             }
         }
-        else if(location.Equals("In Progress"))
+        else if (location.Equals("In Progress"))
         {
             using (StreamReader SR = new StreamReader(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"App_Data\InProgress.txt")))
             {
@@ -819,6 +658,7 @@ public partial class Home : System.Web.UI.Page
                                 needs[i, j] = use[selected, j];
                             }
                         }
+                        split = new string[31];
                     }
                 }
             }
@@ -831,7 +671,7 @@ public partial class Home : System.Web.UI.Page
                     string output = "";
                     if (needs[i, 0] != null && needs[i, 0] != "")
                     {
-                        for (int j = 0; j < 32; j++)
+                        for (int j = 0; j < 31; j++)
                         {
                             output += needs[i, j] + "|";
                         }
@@ -842,7 +682,7 @@ public partial class Home : System.Web.UI.Page
                 sw.Close();
             }
         }
-        else if(location.Equals("Finished"))
+        else if((location.Equals("Finished Nested")))
         {
             using (StreamReader SR = new StreamReader(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"App_Data\Finished.txt")))
             {
@@ -869,6 +709,8 @@ public partial class Home : System.Web.UI.Page
                                 needs[i, j] = use[selected, j];
                             }
                         }
+
+                        split = new string[31];
                     }
                 }
             }
@@ -881,7 +723,7 @@ public partial class Home : System.Web.UI.Page
                     string output = "";
                     if (needs[i, 0] != null && needs[i, 0] != "")
                     {
-                        for (int j = 0; j < 32; j++)
+                        for (int j = 0; j < 31; j++)
                         {
                             output += needs[i, j] + "|";
                         }
@@ -891,8 +733,7 @@ public partial class Home : System.Web.UI.Page
                 }
                 sw.Close();
             }
-        }
-		else if((location.Equals("Finished Nested")))
+        } else
         {
             using (StreamReader SR = new StreamReader(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"App_Data/FinishedPB.txt")))
             {
@@ -942,15 +783,10 @@ public partial class Home : System.Web.UI.Page
                 sw.Close();
             }
         }
-        
-        start();
     }
 
-
-
-    protected void Search_Click(object sender, EventArgs e)
-    {
-        start();
-        BindData();
-    }
 }
+
+
+
+
